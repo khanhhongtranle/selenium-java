@@ -28,6 +28,7 @@ public class AT {
                 options.addArguments("--disable-extensions");
                 options.addArguments("--disable-dev-shm-usage");
                 options.addArguments("start-maximized");
+                options.addArguments("--incognito");
                 driver = new ChromeDriver(options);
                 break;
             }
@@ -36,25 +37,18 @@ public class AT {
                 FirefoxOptions options = new FirefoxOptions();
                 options.addArguments("--disable-extensions");
                 options.addArguments("--disable-dev-shm-usage");
+                options.addArguments("--incognito");
                 options.addArguments("start-maximized");
                 driver = new FirefoxDriver(options);
                 break;
             }
-            case "chrome_headless": {
-                System.setProperty("webdriver.chrome.driver", "lib/chromedriver");
+            default: {
+                System.setProperty("webdriver.chrome.driver", "browsers/chromedriver");
                 ChromeOptions options = new ChromeOptions();
-                options.addArguments("headless");
                 options.addArguments("--disable-extensions");
+                options.addArguments("--disable-dev-shm-usage");
                 options.addArguments("start-maximized");
-                driver = new ChromeDriver(options);
-                break;
-            }
-            default: {//chrome_incognito
-                System.setProperty("webdriver.chrome.driver", "lib/chromedriver");
-                ChromeOptions options = new ChromeOptions();
-                options.addArguments("--disable-extensions");
                 options.addArguments("--incognito");
-                options.addArguments("start-maximized");
                 driver = new ChromeDriver(options);
                 break;
             }
@@ -64,30 +58,30 @@ public class AT {
         return driver;
     }
 
-    public static void setValue(WebDriver driver, String xpath, String value) {
-        WebElement element = driver.findElement(By.xpath(xpath));
+    public static void setValue(WebDriver driver, String selector, String value) {
+        WebElement element = driver.findElement(By.cssSelector(selector));
         element.clear();
         element.sendKeys(value);
     }
 
-    public static void waitPresense(WebDriver driver, String xpath) {
+    public static void waitPresense(WebDriver driver, String selector) {
         WebDriverWait wait = new WebDriverWait(driver, 30);
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(xpath)));
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(selector)));
     }
 
-    public static void waitVisible(WebDriver driver, String xpath) {
+    public static void waitVisible(WebDriver driver, String selector) {
         WebDriverWait wait = new WebDriverWait(driver, 30);
-        wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath(xpath))));
+        wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.cssSelector(selector))));
     }
 
-    public static void waitClickable(WebDriver driver, String xpath) {
+    public static void waitClickable(WebDriver driver, String selector) {
         WebDriverWait wait = new WebDriverWait(driver, 30);
-        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.xpath(xpath))));
+        wait.until(ExpectedConditions.elementToBeClickable(driver.findElement(By.cssSelector(selector))));
     }
 
-    public static void waitNotVisible(WebDriver driver, String xpath) {
+    public static void waitNotVisible(WebDriver driver, String selector) {
         WebDriverWait wait = new WebDriverWait(driver, 30);
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(xpath)));
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(selector)));
     }
 
     public static void waitAlertPresence(WebDriver driver) {
@@ -95,8 +89,8 @@ public class AT {
         wait.until(ExpectedConditions.alertIsPresent());
     }
 
-    public static void click(WebDriver driver, String xpath) {
-        driver.findElement(By.xpath(xpath)).click();
+    public static void click(WebDriver driver, String selector) {
+        driver.findElement(By.cssSelector(selector)).click();
     }
 
     public static void get(WebDriver driver, String url) {
@@ -111,7 +105,7 @@ public class AT {
         List<Map<String, String>> data = new ArrayList<>();
         boolean firstRow = true;
         List<String> keyData = new ArrayList<>();
-        Map<String, String> rowData = new HashMap<>();
+        Map<String, String> rowData;
         Row row;
         Cell cell;
         int i;
