@@ -116,14 +116,24 @@ public class AT {
                 firstRow = false;
                 while (cells.hasNext()) {
                     cell = cells.next();
-                    keyData.add(cell.getStringCellValue());
+                    try{
+                        keyData.add(cell.getStringCellValue());
+                    }catch (Exception e){
+                        keyData.add(Integer.toString((int)cell.getNumericCellValue()));
+                    }
                 }
             } else {
                 i = 0;
                 rowData = new HashMap<>();
                 while (cells.hasNext()) {
                     cell = cells.next();
-                    rowData.put(keyData.get(i), cell.getStringCellValue());
+                    String cellValue;
+                    try{
+                        cellValue=cell.getStringCellValue();
+                    }catch (Exception e){
+                        cellValue=Integer.toString((int)cell.getNumericCellValue());
+                    }
+                    rowData.put(keyData.get(i), cellValue);
                     i++;
                 }
                 data.add(rowData);

@@ -4,7 +4,7 @@
     <test name="chrome">
         <parameter name="browser" value="chrome"/>
         <classes>
-            <class name="TestCase.Test01"/>
+            <class name="TestCase.TestDeleteUser.TestDeleteUser"/>
         </classes>
     </test>
 </suite>
