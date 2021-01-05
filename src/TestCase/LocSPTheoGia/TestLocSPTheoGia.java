@@ -74,9 +74,7 @@ public class TestLocSPTheoGia {
     @Test(description = "Lọc sản phẩm giày theo giá cả tứ $50 - $100")
     public void case02() throws Exception {
         String loginUrl = "http://localhost:3000/shoes-stall.html";
-        WebDriverWait wait = new WebDriverWait(drive, 30);
 
-        //đăng nhập bằng tài khoản admin
         //mở trình duyệt tới đường dẫn
         drive.get(loginUrl);
         //dò tìm element là thẻ a lọc giá và click vào
